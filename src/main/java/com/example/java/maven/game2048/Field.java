@@ -13,6 +13,10 @@ public class Field {
         this.value += value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
