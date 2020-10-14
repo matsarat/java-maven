@@ -49,5 +49,25 @@ public class Board {
         }
         return columns;
     }
+
+
+    private boolean sortedLeftOrUp(Field[] rowOrColumn) {
+        for (int index = 0; index < rowOrColumn.length - 1; index++) {
+            if (rowOrColumn[index].getValue() == 0 && rowOrColumn[index + 1].getValue() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean sortedRightOrDown(Field[] rowOrColumn) {
+        for (int index = rowOrColumn.length - 1; index > -1; index--) {
+            if (rowOrColumn[index].getValue() == 0 && rowOrColumn[index - 1].getValue() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
