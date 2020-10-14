@@ -69,5 +69,29 @@ public class Board {
         return true;
     }
 
+    private void leftOrUpSort(Field[] rowOrColumn) {
+        for (int index = 0; index < rowOrColumn.length - 1; index++) {
+            if (rowOrColumn[index].getValue() == 0 && rowOrColumn[index + 1].getValue() > 0) {
+                int currentFieldValue = rowOrColumn[index].getValue();
+                int nextFieldValue = rowOrColumn[index + 1].getValue();
+                rowOrColumn[index].setValue(nextFieldValue);
+                rowOrColumn[index + 1].setValue(currentFieldValue);
+            }
+        }
+    }
+
+
+    private void rightOrDownSort(Field[] rowOrColumn) {
+        for (int index = rowOrColumn.length - 1; index > -1; index--) {
+            if (rowOrColumn[index].getValue() == 0 && rowOrColumn[index - 1].getValue() > 0) {
+                int currentFieldValue = rowOrColumn[index].getValue();
+                int previousFieldValue = rowOrColumn[index - 1].getValue();
+                rowOrColumn[index].setValue(previousFieldValue);
+                rowOrColumn[index - 1].setValue(currentFieldValue);
+            }
+        }
+    }
+
+
 }
 
