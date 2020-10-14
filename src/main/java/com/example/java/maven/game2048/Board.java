@@ -1,6 +1,9 @@
 package com.example.java.maven.game2048;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class Board {
     private final Field[][] fields;
@@ -50,6 +53,37 @@ public class Board {
         return columns;
     }
 
+    private List<Field> getFieldsWithZeroValue() {
+        List<Field> fieldsWithZeroValue = new ArrayList<>();
+        for (Field[] row: this.fields){
+            for (Field field : row){
+                if (field.getValue() == 0){
+                    fieldsWithZeroValue.add(field);
+                }
+            }
+        }
+        return fieldsWithZeroValue;
+    }
+
+    private void placeTwoInitialElementsOnBoard() {
+        Field firstInitialField = getRandomFieldWithZeroValue();
+        firstInitialField.setValue(2);
+        Field secondInitialField = getRandomFieldWithZeroValue();
+        secondInitialField.setValue(2);
+    }
+
+    private void placeNextElementOnBoard() {
+        Field nextElementOnBoard = getRandomFieldWithZeroValue();
+        nextElementOnBoard.setValue(2);
+    }
+
+    private Field getRandomFieldWithZeroValue() {
+        Random random = new Random();
+        List<Field> fieldsWithZeroValues = getFieldsWithZeroValue();
+        Field randomField = fieldsWithZeroValues.get(random.nextInt(fieldsWithZeroValues.size()));
+        return randomField;
+    }
+
 
     private boolean sortedLeftOrUp(Field[] rowOrColumn) {
         for (int index = 0; index < rowOrColumn.length - 1; index++) {
@@ -95,7 +129,7 @@ public class Board {
     public void sumInRowOrColumn(Field[] rowOrColumn) {
         for (int index = 0; index < rowOrColumn.length - 1; index++) {
             if (rowOrColumn[index].getValue() == rowOrColumn[index + 1].getValue()) {
-                rowOrColumn[index].setValue(rowOrColumn[index].getValue() + rowOrColumn[index + 1].getValue());
+                rowOrColumn[index].addToValue(rowOrColumn[index + 1].getValue());
                 rowOrColumn[index + 1].setValue(0);
             }
         }
@@ -133,6 +167,11 @@ public class Board {
             }
         }
     }
+
+    public boolean checkIfMoveIsValid() {
+
+    }
+
 }
 
 
