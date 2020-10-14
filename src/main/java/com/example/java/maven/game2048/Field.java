@@ -5,6 +5,13 @@ import java.util.Objects;
 public class Field {
     private int value;
 
+    public Field() {
+    }
+
+    public Field(Field toCopy) {
+        this.value = toCopy.value;
+    }
+
     public int getValue() {
         return value;
     }
