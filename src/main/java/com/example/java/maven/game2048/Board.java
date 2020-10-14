@@ -92,6 +92,47 @@ public class Board {
         }
     }
 
+    public void sumInRowOrColumn(Field[] rowOrColumn) {
+        for (int index = 0; index < rowOrColumn.length - 1; index++) {
+            if (rowOrColumn[index].getValue() == rowOrColumn[index + 1].getValue()) {
+                rowOrColumn[index].setValue(rowOrColumn[index].getValue() + rowOrColumn[index + 1].getValue());
+                rowOrColumn[index + 1].setValue(0);
+            }
+        }
+    }
 
+
+    public void moveLeft() {
+        for (Field[] row : this.fields) {
+            while (sortedLeftOrUp(row)) {
+                leftOrUpSort(row);
+            }
+        }
+    }
+
+    public void moveRight() {
+        for (Field[] row : this.fields) {
+            while (sortedRightOrDown(row)) {
+                rightOrDownSort(row);
+            }
+        }
+    }
+
+    public void moveUp() {
+        for (Field[] column : getColumns()) {
+            while (sortedRightOrDown(column)) {
+                rightOrDownSort(column);
+            }
+        }
+    }
+
+    public void moveDown() {
+        for (Field[] column : getColumns()) {
+            while (sortedRightOrDown(column)) {
+                rightOrDownSort(column);
+            }
+        }
+    }
 }
+
 
