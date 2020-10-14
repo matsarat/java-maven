@@ -3,9 +3,10 @@ package com.example.java.maven.game2048;
 import java.util.Arrays;
 
 public class Board {
-    private Field[][] fields;
-    private int numberOfRows;
-    private int numberOfColumns;
+    private final Field[][] fields;
+    private final int numberOfRows;
+    private final int numberOfColumns;
+
 
     public Board(int numberOfRows, int numberOfColumns) {
         this.numberOfRows = numberOfRows;
@@ -32,4 +33,21 @@ public class Board {
         }
         return strBoardBuilder.toString();
     }
+
+    private Field[] getColumn(int columnNumber) {
+        Field[] column = new Field[numberOfRows];
+        for (int rowNumber = 0; rowNumber < numberOfRows; rowNumber++) {
+            column[rowNumber] = fields[rowNumber][columnNumber];
+        }
+        return column;
+    }
+
+    private Field[][] getColumns() {
+        Field[][] columns = new Field[numberOfRows][numberOfColumns];
+        for (int columnNumber = 0; columnNumber < numberOfColumns; columnNumber++) {
+            columns[columnNumber] = getColumn(columnNumber);
+        }
+        return columns;
+    }
 }
+
