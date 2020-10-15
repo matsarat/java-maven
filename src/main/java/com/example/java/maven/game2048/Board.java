@@ -254,6 +254,24 @@ public class Board {
         return false;
     }
 
+    public boolean checkIfSimilarNeighboringFields() {
+        for (Field[] row : this.fields) {
+            for (int index = 0; index < row.length - 1; index++) {
+                if (row[index].getValue() == row[index+1].getValue()) {
+                    return true;
+                }
+            }
+        }
+        for (Field[] column : getColumns()) {
+            for (int index = 0; index < column.length - 1; index++) {
+                if (column[index].getValue() == column[index + 1].getValue()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
 
 
