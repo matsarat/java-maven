@@ -70,5 +70,6 @@ public class Game {
             board.sumUpOrDown();
             board.moveDown();
         }
+    }
 
 }
