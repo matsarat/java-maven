@@ -242,6 +242,20 @@ public class Board {
         }
     }
 
+    public boolean checkIfWon() {
+        for (Field[] row : this.fields) {
+            for (Field field : row) {
+                if (field.getValue() == 2048) {
+                    return true;
+
+                }
+            }
+        }
+        return false;
+    }
+
+
+
 
 }
 
