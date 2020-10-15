@@ -13,8 +13,8 @@ public class UserInputProvider {
         }
     }
     public static String getMoveFromPlayer(){
+        System.out.println("Next move: ");
         Scanner scanner = new Scanner(System.in);
-        String move = scanner.nextLine();
-        return move;
+        return scanner.nextLine();
     }
 }
