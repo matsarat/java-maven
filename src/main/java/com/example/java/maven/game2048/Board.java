@@ -111,20 +111,6 @@ public class Board {
         }
     }
 
-    public boolean canMoveRight() {
-        //todo implement
-        return false;
-    }
-
-    public boolean canMoveUp() {
-        // todo implement
-        return false;
-    }
-
-    public boolean canMoveDown() {
-        // todo implement
-        return false;
-    }
 
     private Field[][] getCopyOfFields(){
         Field[][] copy = new Field[numberOfRows][numberOfColumns];
@@ -153,10 +139,29 @@ public class Board {
         return result;
     }
 
+
+    public boolean canMoveUp() {
+        Board copyOfCurrentBoard = new Board(this);
+        copyOfCurrentBoard.moveUp();
+        return !copyOfCurrentBoard.equals(this);
+    }
+
+    public boolean canMoveDown() {
+        Board copyOfCurrentBoard = new Board(this);
+        copyOfCurrentBoard.moveDown();
+        return !copyOfCurrentBoard.equals(this);
+    }
+
+    public boolean canMoveRight() {
+        Board copyOfCurrentBoard = new Board(this);
+        copyOfCurrentBoard.moveRight();
+        return !copyOfCurrentBoard.equals(this);
+    }
+
     public boolean canMoveLeft() {
-        Board copyOfCurrentBoar = new Board(this);
-        copyOfCurrentBoar.moveLeft();
-        return !copyOfCurrentBoar.equals(this);
+        Board copyOfCurrentBoard = new Board(this);
+        copyOfCurrentBoard.moveLeft();
+        return !copyOfCurrentBoard.equals(this);
     }
 
     private Field[] getColumn(int columnNumber) {
