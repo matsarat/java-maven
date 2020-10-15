@@ -8,11 +8,20 @@ public class Game {
         this.winningNumber = winningNumber;
         this.board = board;
         board.placeTwoInitialElementsOnBoard();
+        MessagePrinter.printInstructionsBeforeGame();
     }
 
 
     public void start() {
-        String playerMove = getPlayerMove();
+        while (!board.checkIfGameOver()) {
+            System.out.println(board);
+            String userInput = getPlayerMove();
+            makeValidMove(userInput);
+            if (board.checkIfWon()) {
+                break;
+            }
+            board.placeNextElementOnBoard();
+        }
     }
 
     private String getPlayerMove() {
@@ -40,32 +49,33 @@ public class Game {
             }
         }
         if (userInput.equalsIgnoreCase("s")) {
-            return board.canMoveDown();
+            if (board.canMoveDown()) {
+                return true;
+            }
         }
         return false;
     }
 
-    private void makeValidMove() {
-        String userMove = getPlayerMove();
-        if (userMove.equalsIgnoreCase("a")) {
+    private void makeValidMove(String userInput) {
+        if (userInput.equalsIgnoreCase("a")) {
             board.moveLeft();
             board.sumLeftOrRight();
             board.moveLeft();
         }
 
-        if (userMove.equalsIgnoreCase("d")) {
+        if (userInput.equalsIgnoreCase("d")) {
             board.moveRight();
             board.sumLeftOrRight();
             board.moveRight();
         }
 
-        if (userMove.equalsIgnoreCase("w")) {
+        if (userInput.equalsIgnoreCase("w")) {
             board.moveUp();
             board.sumUpOrDown();
             board.moveUp();
         }
 
-        if (userMove.equalsIgnoreCase("s")) {
+        if (userInput.equalsIgnoreCase("s")) {
             board.moveDown();
             board.sumUpOrDown();
             board.moveDown();
