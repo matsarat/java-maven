@@ -246,6 +246,7 @@ public class Board {
         for (Field[] row : this.fields) {
             for (Field field : row) {
                 if (field.getValue() == 2048) {
+                    System.out.println("YOU WON!");
                     return true;
 
                 }
@@ -272,8 +273,17 @@ public class Board {
         return false;
     }
 
-
-
+    public boolean checkIfGameOver() {
+        int zeroValuesOnBoard = getFieldsWithZeroValue().size();
+        if (zeroValuesOnBoard > 0) {
+            return false;
+        }
+        if (checkIfSimilarNeighboringFields()) {
+            return false;
+        }
+        System.out.println("YOU LOST!");
+        return true;
+    }
 
 }
 
