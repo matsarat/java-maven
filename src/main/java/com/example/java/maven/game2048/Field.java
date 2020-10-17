@@ -16,12 +16,17 @@ public class Field {
         return value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     public void addToValue(int value) {
         this.value += value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override
@@ -30,11 +35,6 @@ public class Field {
         if (o == null || this.getClass() != o.getClass()) return false;
         Field field = (Field) o;
         return value == field.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
     }
 
     @Override
