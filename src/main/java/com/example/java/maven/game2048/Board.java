@@ -27,7 +27,7 @@ public class Board {
     private Board(Board toCopy){
         this.numberOfRows = toCopy.numberOfRows;
         this.numberOfColumns = toCopy.numberOfColumns;
-        this.fields = getCopyOfFields();
+        this.fields = getCopyOfFields(toCopy);
     }
 
     @Override
@@ -112,11 +112,11 @@ public class Board {
     }
 
 
-    private Field[][] getCopyOfFields(){
+    private Field[][] getCopyOfFields(Board toCopy){
         Field[][] copy = new Field[numberOfRows][numberOfColumns];
         for (int rowNumber = 0; rowNumber < numberOfColumns; rowNumber++) {
             for (int columnNumber = 0; columnNumber < numberOfRows; columnNumber++) {
-                copy[rowNumber][columnNumber] = new Field(this.fields[rowNumber][columnNumber]);
+                copy[rowNumber][columnNumber] = new Field(toCopy.fields[rowNumber][columnNumber]);
             }
         }
         return copy;
