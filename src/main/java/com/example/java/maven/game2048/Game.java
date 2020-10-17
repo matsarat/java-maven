@@ -15,9 +15,8 @@ public class Game {
     public void start() {
         while (!board.checkIfGameOver()) {
             System.out.println(board);
-            String userInput = getPlayerMove();
-            makeValidMove(userInput);
-            if (board.checkIfWon()) {
+            makeValidMove();
+            if (board.checkIfWon(winningNumber)) {
                 break;
             }
             board.placeNextElementOnBoard();
@@ -34,51 +33,47 @@ public class Game {
 
     private boolean playerMoveIsValid(String userInput) {
         if (userInput.equalsIgnoreCase("a")) {
-            if (board.canMoveLeft()) {
-                return true;
-            }
+            return true;
         }
         if (userInput.equalsIgnoreCase("d")) {
-            if (board.canMoveRight()) {
-                return true;
-            }
+            return true;
         }
         if (userInput.equalsIgnoreCase("w")) {
-            if (board.canMoveUp()) {
-                return true;
-            }
+            return true;
         }
-        if (userInput.equalsIgnoreCase("s")) {
-            if (board.canMoveDown()) {
-                return true;
-            }
-        }
-        return false;
+        return userInput.equalsIgnoreCase("s");
     }
 
-    private void makeValidMove(String userInput) {
+    private void makeValidMove() {
+        String userInput = getPlayerMove();
+        Board copyOfBoard = new Board(this.board);
         if (userInput.equalsIgnoreCase("a")) {
             board.moveLeft();
-            board.sumLeftOrRight();
+            board.sumLeft();
             board.moveLeft();
         }
 
         if (userInput.equalsIgnoreCase("d")) {
             board.moveRight();
-            board.sumLeftOrRight();
+            board.sumRight();
             board.moveRight();
         }
 
         if (userInput.equalsIgnoreCase("w")) {
             board.moveUp();
-            board.sumUpOrDown();
+            board.sumUp();
             board.moveUp();
         }
 
         if (userInput.equalsIgnoreCase("s")) {
             board.moveDown();
-            board.sumUpOrDown();
+            board.sumDown();
             board.moveDown();
+        }
+        if (copyOfBoard.equals(this.board)) {
+            System.out.print(this.board);
+            System.out.println("Invalid move!");
+            makeValidMove();
         }
     }
 
