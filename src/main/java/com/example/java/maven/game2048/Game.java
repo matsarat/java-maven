@@ -7,14 +7,20 @@ public class Game {
     public Game(int winningNumber, Board board) {
         this.winningNumber = winningNumber;
         this.board = board;
+        String instructions = ("INSTRUCTIONS:" + '\n' +
+                "To move left   - insert a" + '\n' +
+                "To move right  - insert d" + '\n' +
+                "To move up     - insert w" +'\n' +
+                "To move down   - insert s" + '\n'
+        );
         board.placeTwoInitialElementsOnBoard();
-        MessagePrinter.printInstructionsBeforeGame();
+        MessagePrinter.printMessage(instructions);
     }
 
 
     public void start() {
         while (!board.checkIfGameOver()) {
-            System.out.println(board);
+            MessagePrinter.printBoard(board);
             makeValidMove();
             if (board.checkIfWon(winningNumber)) {
                 break;
@@ -71,8 +77,8 @@ public class Game {
             board.moveDown();
         }
         if (copyOfBoard.equals(this.board)) {
-            System.out.print(this.board);
-            System.out.println("Invalid move!");
+            MessagePrinter.printBoard(this.board);
+            MessagePrinter.printError("Invalid move!");
             makeValidMove();
         }
     }

@@ -157,8 +157,8 @@ public class Board {
         for (Field[] row : this.fields) {
             for (Field field : row) {
                 if (field.getValue() == winningNumber) {
-                    System.out.print(this);
-                    System.out.println("YOU WON!");
+                    MessagePrinter.printBoard(this);
+                    MessagePrinter.printMessage("YOU WON! :D");
                     return true;
 
                 }
@@ -193,7 +193,7 @@ public class Board {
         if (checkIfSimilarNeighboringFields()) {
             return false;
         }
-        System.out.println("YOU LOST!");
+        MessagePrinter.printMessage("YOU LOST! :(");
         return true;
     }
 

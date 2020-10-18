@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class UserInputProvider {
 
     public static String getMoveFromPlayer() {
-        System.out.println("Next move: ");
+        MessagePrinter.printMessage("" + '\n' +
+                "Next move: ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
