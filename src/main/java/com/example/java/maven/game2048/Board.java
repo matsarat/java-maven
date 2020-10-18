@@ -65,7 +65,7 @@ public class Board {
         }
     }
 
-    public void moveLeft() {
+    public void sortBoardLeft() {
         for (Field[] row : this.fields) {
             while (notSortedLeftOrUp(row)) {
                 leftOrUpSort(row);
@@ -73,7 +73,7 @@ public class Board {
         }
     }
 
-    public void moveRight() {
+    public void sortBoardRight() {
         for (Field[] row : this.fields) {
             while (notSortedRightOrDown(row)) {
                 rightOrDownSort(row);
@@ -81,7 +81,7 @@ public class Board {
         }
     }
 
-    public void moveUp() {
+    public void sortBoardUp() {
         for (Field[] column : getColumns()) {
             while (notSortedLeftOrUp(column)) {
                 leftOrUpSort(column);
@@ -89,7 +89,7 @@ public class Board {
         }
     }
 
-    public void moveDown() {
+    public void sortBoardDown() {
         for (Field[] column : getColumns()) {
             while (notSortedRightOrDown(column)) {
                 rightOrDownSort(column);
@@ -153,31 +153,32 @@ public class Board {
         return strBoardBuilder.toString().trim();
     }
 
-    public boolean checkIfWon(int winningNumber) {
+    public boolean hasWinningNumber(int winningNumber) {
         for (Field[] row : this.fields) {
             for (Field field : row) {
                 if (field.getValue() == winningNumber) {
-                    MessagePrinter.printBoard(this);
-                    MessagePrinter.printMessage("YOU WON! :D");
                     return true;
-
                 }
             }
         }
         return false;
     }
 
-    public boolean checkIfSimilarNeighboringFields() {
+    public boolean hasSimilarNeighboringFields() {
         for (Field[] row : this.fields) {
             for (int index = 0; index < row.length - 1; index++) {
-                if (row[index].getValue() == row[index + 1].getValue()) {
+                int currentFieldValue = row[index].getValue();
+                int nextFieldValue = row[index + 1].getValue();
+                if (currentFieldValue == nextFieldValue) {
                     return true;
                 }
             }
         }
         for (Field[] column : getColumns()) {
             for (int index = 0; index < column.length - 1; index++) {
-                if (column[index].getValue() == column[index + 1].getValue()) {
+                int currentFieldValue = column[index].getValue();
+                int nextFieldValue = column[index + 1].getValue();
+                if (currentFieldValue == nextFieldValue) {
                     return true;
                 }
             }
@@ -185,16 +186,16 @@ public class Board {
         return false;
     }
 
-    public boolean checkIfGameOver() {
-        int zeroValuesOnBoard = getFieldsWithZeroValue().size();
-        if (zeroValuesOnBoard > 0) {
-            return false;
+    public List<Field> getFieldsWithZeroValue() {
+        List<Field> fieldsWithZeroValue = new ArrayList<>();
+        for (Field[] row : this.fields) {
+            for (Field field : row) {
+                if (field.getValue() == 0) {
+                    fieldsWithZeroValue.add(field);
+                }
+            }
         }
-        if (checkIfSimilarNeighboringFields()) {
-            return false;
-        }
-        MessagePrinter.printMessage("YOU LOST! :(");
-        return true;
+        return fieldsWithZeroValue;
     }
 
     private Field[][] getCopyOfFields(Board toCopy) {
@@ -223,18 +224,6 @@ public class Board {
         return columns;
     }
 
-    private List<Field> getFieldsWithZeroValue() {
-        List<Field> fieldsWithZeroValue = new ArrayList<>();
-        for (Field[] row : this.fields) {
-            for (Field field : row) {
-                if (field.getValue() == 0) {
-                    fieldsWithZeroValue.add(field);
-                }
-            }
-        }
-        return fieldsWithZeroValue;
-    }
-
     private Field getRandomFieldWithZeroValue() {
         Random random = new Random();
         List<Field> fieldsWithZeroValues = getFieldsWithZeroValue();
@@ -243,7 +232,9 @@ public class Board {
 
     private boolean notSortedLeftOrUp(Field[] rowOrColumn) {
         for (int index = 0; index < rowOrColumn.length - 1; index++) {
-            if (rowOrColumn[index].getValue() == 0 && rowOrColumn[index + 1].getValue() > 0) {
+            int currentFieldValue = rowOrColumn[index].getValue();
+            int nextFieldValue = rowOrColumn[index + 1].getValue();
+            if (currentFieldValue == 0 && nextFieldValue > 0) {
                 return true;
             }
         }
