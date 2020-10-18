@@ -5,14 +5,15 @@ public class MessagePrinter {
     private MessagePrinter() {
     }
 
-    public static void printInstructionsBeforeGame(){
-        String instructions = ("INSTRUCTIONS:" + '\n' +
-                "To move left   - insert a" + '\n' +
-                "To move right  - insert d" + '\n' +
-                "To move up     - insert w" +'\n' +
-                "To move down   - insert s" + '\n'
-        );
+    public static void printMessage(String messageToPrint) {
+        System.out.print(messageToPrint);
+    }
 
-        System.out.println(instructions);
+    public static void printError(String errorToPrint){
+        System.out.print(errorToPrint);
+    }
+
+    public static void printBoard(Board boardToPrint){
+        System.out.print(boardToPrint);
     }
 }
