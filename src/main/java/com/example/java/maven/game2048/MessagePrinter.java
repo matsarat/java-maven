@@ -6,11 +6,11 @@ public class MessagePrinter {
     }
 
     public static void printMessage(String messageToPrint) {
-        System.out.print(messageToPrint);
+        System.out.println(messageToPrint);
     }
 
     public static void printError(String errorToPrint){
-        System.out.print(errorToPrint);
+        System.err.println(errorToPrint);
     }
 
     public static void printBoard(Board boardToPrint){
