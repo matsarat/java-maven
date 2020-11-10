@@ -1,43 +1,32 @@
 package com.example.java.maven.gameBlackJack;
 
-
 public class Card {
-    String suit;
-    String figure;
-    int value;
+    Suit suit;
+    Rank rank;
 
-
-
-    public void deckBuilder() {
-        Suits suits[] = Suits.values();
-        Rank ranks[] = Rank.values();
-        for (Suits suit : suits) {
-            for (Rank rank : ranks) {
-                System.out.print(suit.symbol);
-                System.out.println(rank.name);
-
-
-            }
-
-        }
+    public Card(Suit suit, Rank rank) {
+        this.suit = suit;
+        this.rank = rank;
     }
 
-    public enum Suits {
+    @Override
+    public String toString() {
+        return suit.symbol + rank.figure;
+    }
 
-        CLUBS("♣"),
-        DIAMONDS("♦"),
-        HEARTS("♥"),
-        SPADES("♠");
+    public enum Suit {
 
-        private String symbol;
+        CLUB("♣"),
+        DIAMOND("♦"),
+        HEART("♥"),
+        SPADE("♠");
 
-        Suits(String symbol) {
+        private final String symbol;
+
+        Suit(String symbol) {
             this.symbol = symbol;
-
         }
-
     }
-
 
     public enum Rank {
         ACE(1, "A"),
@@ -54,14 +43,21 @@ public class Card {
         QUEEN(10, "Q"),
         KING(10, "K");
 
-        private int value;
-        private String name;
+        private final int value;
+        private final String figure;
 
-        Rank(int value, String name) {
+        Rank(int value, String figure) {
             this.value = value;
-            this.name = name;
+            this.figure = figure;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getFigure() {
+            return figure;
         }
     }
-
 }
 
