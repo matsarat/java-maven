@@ -1,5 +1,6 @@
 package com.example.java.maven.gameBlackJack;
 
+import java.util.Collections;
 import java.util.Stack;
 
 public class Deck {
@@ -16,6 +17,11 @@ public class Deck {
     }
 
     public Stack<Card> getDeck() {
+        return deck;
+    }
+
+    public Stack<Card> getShuffledDeck() {
+        Collections.shuffle(deck);
         return deck;
     }
 }
