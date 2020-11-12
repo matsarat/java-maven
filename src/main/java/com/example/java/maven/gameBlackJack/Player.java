@@ -7,9 +7,15 @@ public class Player {
     Stack<Card> hand;
     int points;
 
-    public Player(String name, Stack<Card> hand, int points) {
+    public Player(String name) {
         this.name = name;
-        this.hand = hand;
-        this.points = points;
+    }
+
+    public void addCardToPlayersHand(Card card) {
+        hand.push(card);
+    }
+
+    public int getPoints() {
+        return points;
     }
 }
