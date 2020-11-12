@@ -24,4 +24,9 @@ public class Deck {
         Collections.shuffle(deck);
         return deck;
     }
+
+    public Card getCard() {
+        return deck.pop();
+
+    }
 }
