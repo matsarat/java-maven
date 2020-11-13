@@ -19,4 +19,12 @@ public class MessagePrinter {
         System.out.println(hand);
     }
 
+    public static void printPlayer(Player player) {
+        System.out.println(player);
+    }
+
+    public static void printCroupier(Croupier croupier) {
+        System.out.println(croupier);
+    }
+
 }
