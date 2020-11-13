@@ -4,29 +4,30 @@ import java.util.Collections;
 import java.util.Stack;
 
 public class Deck {
-    private final Stack<Card> deck;
+    private final Stack<Card> cards;
 
     public Deck() {
-        this.deck = new Stack<>();
+        this.cards = new Stack<>();
         for (Card.Suit suit : Card.Suit.values()) {
             for (Card.Rank rank : Card.Rank.values()) {
                 Card card = new Card(suit, rank);
-                deck.push(card);
+                cards.push(card);
             }
         }
+        Collections.shuffle(cards);
     }
 
-    public Stack<Card> getDeck() {
-        return deck;
-    }
-
-    public Stack<Card> getShuffledDeck() {
-        Collections.shuffle(deck);
-        return deck;
+    public Stack<Card> getCards() {
+        return cards;
     }
 
     public Card getCard() {
-        return deck.pop();
+        return cards.pop();
 
+    }
+
+    @Override
+    public String toString() {
+        return "Deck: " + cards;
     }
 }
