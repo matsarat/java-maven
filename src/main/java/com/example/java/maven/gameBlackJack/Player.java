@@ -10,7 +10,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         this.hand = new ArrayList<>();
-        this.points = 0;
+        this.points = getPoints();
     }
 
     public void addCardToPlayersHand(Card card) {
@@ -18,6 +18,7 @@ public class Player {
     }
 
     public int getPoints() {
+        points = 0;
         for (Card card : hand) {
             points += card.rank.getValue();
         }
