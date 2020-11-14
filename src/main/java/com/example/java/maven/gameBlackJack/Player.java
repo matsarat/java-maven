@@ -18,11 +18,15 @@ public class Player {
     }
 
     public int getPoints() {
+        for (Card card : hand) {
+            points += card.rank.getValue();
+        }
         return points;
+
     }
 
     @Override
     public String toString() {
-        return name + " " + hand;
+        return name + " " + hand + "  Points: " + getPoints();
     }
 }
