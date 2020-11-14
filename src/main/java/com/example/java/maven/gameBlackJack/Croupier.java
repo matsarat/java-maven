@@ -14,6 +14,9 @@ public class Croupier {
     }
 
     public int getPoints() {
+        for (Card card : hand) {
+            points += card.rank.getValue();
+        }
         return points;
     }
 
