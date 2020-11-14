@@ -10,10 +10,11 @@ public class Croupier {
     public Croupier() {
         this.name = "Croupier";
         this.hand = new ArrayList<>();
-        this.points = 0;
+        this.points = getPoints();
     }
 
     public int getPoints() {
+        points = 0;
         for (Card card : hand) {
             points += card.rank.getValue();
         }
