@@ -27,4 +27,14 @@ public class MessagePrinter {
         System.out.println(croupier);
     }
 
+    public static void printCroupiersInitialHand(Croupier croupier) {
+        System.out.println("Croupier " + croupier.hand.get(0));
+    }
+
+    public static void printPlayerAndCroupier(Player player, Croupier croupier) {
+        System.out.print(player);
+        System.out.print(" VERSUS ");
+        System.out.print(croupier);
+    }
+
 }
