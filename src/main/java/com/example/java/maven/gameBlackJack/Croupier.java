@@ -23,7 +23,6 @@ public class Croupier {
 
     @Override
     public String toString() {
-        return name + " " + hand.get(0);
+        return name + " " + hand + "  Points: " + getPoints();
     }
-
 }
