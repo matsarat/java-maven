@@ -91,7 +91,7 @@ public class Game {
                 MessagePrinter.printPlayerAndCroupier(player, croupier);
                 MessagePrinter.printMessage(playerWon);
             }
-            else if (croupier.points == player.points) {
+            else {
                 MessagePrinter.printPlayerAndCroupier(player, croupier);
                 MessagePrinter.printMessage(TIE);
             }
