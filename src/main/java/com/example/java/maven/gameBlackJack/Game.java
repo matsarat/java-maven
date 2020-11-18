@@ -22,23 +22,25 @@ public class Game {
 
     public Game() {
         this.deck = new Deck();
-        initiateGame();
+        dealCards();
+        printPlayers();
+        MessagePrinter.printMessage(INSTRUCTIONS);
         while (this.playerIsPlaying) {
             playersDecision();
         }
         gameFinishing();
     }
 
-    public void initiateGame() {
-        player.hand.add(deck.getCard());
-        croupier.hand.add(deck.getCard());
-        player.hand.add(deck.getCard());
-        croupier.hand.add(deck.getCard());
-
+    private void printPlayers() {
         MessagePrinter.printPlayer(player);
         MessagePrinter.printCroupiersInitialHand(croupier);
+    }
 
-        MessagePrinter.printMessage(INSTRUCTIONS);
+    private void dealCards() {
+        player.hand.add(deck.getCard());
+        croupier.hand.add(deck.getCard());
+        player.hand.add(deck.getCard());
+        croupier.hand.add(deck.getCard());
     }
 
     private boolean isPlayersDecisionValid(String userInput) {
