@@ -1,12 +1,16 @@
 package com.example.java.maven.gameBlackJack;
 
 public class Card {
-    Suit suit;
-    Rank rank;
+    private final Suit suit;
+    private final Rank rank;
 
     public Card(Suit suit, Rank rank) {
         this.suit = suit;
         this.rank = rank;
+    }
+
+    public Rank getRank() {
+        return rank;
     }
 
     @Override
@@ -53,10 +57,6 @@ public class Card {
 
         public int getValue() {
             return value;
-        }
-
-        public String getFigure() {
-            return figure;
         }
     }
 }
