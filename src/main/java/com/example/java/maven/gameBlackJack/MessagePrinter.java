@@ -22,7 +22,7 @@ public class MessagePrinter {
     }
 
     public static void printCroupiersInitialHand(Croupier croupier) {
-        System.out.println("Croupier " + croupier.hand.get(0));
+        System.out.println("Croupier " + croupier.getHand().get(0));
     }
 
     public static void printPlayerAndCroupier(Player player, Croupier croupier) {
