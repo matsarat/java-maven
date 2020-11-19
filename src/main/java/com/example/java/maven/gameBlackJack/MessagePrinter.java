@@ -17,18 +17,14 @@ public class MessagePrinter {
         System.out.println(player);
     }
 
-    public static void printCroupier(Croupier croupier) {
-        System.out.println(croupier);
-    }
 
-    public static void printCroupiersInitialHand(Croupier croupier) {
+    public static void printCroupiersInitialHand(Player croupier) {
         System.out.println("Croupier " + croupier.getHand().get(0));
     }
 
-    public static void printPlayerAndCroupier(Player player, Croupier croupier) {
+    public static void printPlayerAndCroupier(Player player, Player croupier) {
         System.out.print(player);
-        System.out.print(" VERSUS ");
-        System.out.print(croupier);
+        System.out.print("  VERSUS  ");
+        System.out.println(croupier);
     }
-
 }
