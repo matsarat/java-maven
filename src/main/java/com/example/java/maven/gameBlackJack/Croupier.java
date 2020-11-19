@@ -3,20 +3,22 @@ package com.example.java.maven.gameBlackJack;
 import java.util.ArrayList;
 
 public class Croupier {
-    String name;
-    ArrayList<Card> hand;
-    int points;
+    private final String name;
+    private final ArrayList<Card> hand;
 
     public Croupier() {
         this.name = "Croupier";
         this.hand = new ArrayList<>();
-        this.points = getPoints();
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
     }
 
     public int getPoints() {
-        points = 0;
+        int points = 0;
         for (Card card : hand) {
-            points += card.rank.getValue();
+            points += card.getRank().getValue();
         }
         return points;
     }
