@@ -30,6 +30,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return name + " " + hand + "  Points: " + getPoints();
+        return String.format("%s %s Points: %s", name, hand, getPoints());
     }
 }
