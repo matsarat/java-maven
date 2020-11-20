@@ -37,11 +37,19 @@ public class Game {
         MessagePrinter.printCroupiersInitialHand(croupier);
     }
 
+    private List<Player> makePlayerList() {
+        List<Player> playerList = new ArrayList<>();
+        playerList.add(player);
+        playerList.add(croupier);
+        return playerList;
+    }
+
     private void dealCards() {
-        player.getHand().add(deck.getCard());
-        croupier.getHand().add(deck.getCard());
-        player.getHand().add(deck.getCard());
-        croupier.getHand().add(deck.getCard());
+        for (Player player : makePlayerList()) {
+            for (Player players : makePlayerList()) {
+                players.getHand().add(deck.getCard());
+            }
+        }
     }
 
     private enum PlayersDecision {
