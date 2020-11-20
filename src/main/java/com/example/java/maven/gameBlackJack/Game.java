@@ -25,11 +25,15 @@ public class Game {
 
         dealCards();
         printPlayers();
-        MessagePrinter.printMessage(INSTRUCTIONS);
+        printInstructions();
         while (this.playerIsPlaying) {
             playersDecision();
         }
         gameFinishing();
+    }
+
+    private void printInstructions() {
+        MessagePrinter.printMessage(INSTRUCTIONS);
     }
 
     private void printPlayers() {
