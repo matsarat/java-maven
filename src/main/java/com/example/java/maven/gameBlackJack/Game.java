@@ -15,6 +15,7 @@ public class Game {
             To do nothing (stand) - insert S""";
     private final static String CROUPIER_TURN = ('\n' + "Croupier's turn now.");
     private final static String TIE = ('\n' + "It's a tie!");
+    private static final int NUMBER_OF_INITIAL_CARDS = 2;
 
 
 
@@ -50,8 +51,9 @@ public class Game {
 
     private void dealCards() {
         for (Player player : makePlayerList()) {
-            player.getHand().add(deck.getCard());
-            player.getHand().add(deck.getCard());
+            for (int i = 0; i < NUMBER_OF_INITIAL_CARDS; i++) {
+                player.getHand().add(deck.getCard());
+            }
         }
     }
 
