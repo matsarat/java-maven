@@ -50,9 +50,8 @@ public class Game {
 
     private void dealCards() {
         for (Player player : makePlayerList()) {
-            for (Player players : makePlayerList()) {
-                players.getHand().add(deck.getCard());
-            }
+            player.getHand().add(deck.getCard());
+            player.getHand().add(deck.getCard());
         }
     }
 
