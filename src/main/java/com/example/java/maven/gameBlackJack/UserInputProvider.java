@@ -3,16 +3,17 @@ package com.example.java.maven.gameBlackJack;
 import java.util.Scanner;
 
 public class UserInputProvider {
+    MessagePrinter messagePrinter;
 
-    public static String getPlayersName() {
-        MessagePrinter.printMessage("" + '\n' +
+    public String getPlayersName() {
+        messagePrinter.printMessage("" + '\n' +
                 "What is your name? ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
-    public static String getPlayersDecision(String name) {
-        MessagePrinter.printMessage(
+    public String getPlayersDecision(String name) {
+        messagePrinter.printMessage(
                 "" + '\n' +
                 "What is your decision, " + name + "?" + '\n' +
                 "Hit (H) or stand (S)?"
