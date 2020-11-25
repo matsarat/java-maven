@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Game {
     boolean playerIsPlaying = true;
+    private final UserInputProvider userInputProvider;
+    private final MessagePrinter messagePrinter;
     private final Player player;
     private final Player croupier;
     private final Deck deck;
@@ -19,27 +21,21 @@ public class Game {
 
 
 
-    public Game(Player player, Player croupier, Deck deck) {
+    public Game(Player player, Player croupier, Deck deck, UserInputProvider userInputProvider, MessagePrinter messagePrinter) {
         this.player = player;
         this.croupier = croupier;
         this.deck = deck;
-
-        dealCards();
-        printPlayers();
-        printInstructions();
-        while (this.playerIsPlaying) {
-            playersDecision();
-        }
-        gameFinishing();
+        this.userInputProvider = userInputProvider;
+        this.messagePrinter = messagePrinter;
     }
 
-    private void printInstructions() {
-        MessagePrinter.printMessage(INSTRUCTIONS);
+    public void printInstructions() {
+        messagePrinter.printMessage(INSTRUCTIONS);
     }
 
-    private void printPlayers() {
-        MessagePrinter.printPlayer(player);
-        MessagePrinter.printCroupiersInitialHand(croupier);
+    public void printPlayers() {
+        messagePrinter.printPlayer(player);
+        messagePrinter.printCroupiersInitialHand(croupier);
     }
 
     private List<Player> makePlayerList() {
@@ -49,7 +45,7 @@ public class Game {
         return playerList;
     }
 
-    private void dealCards() {
+    public void dealCards() {
         for (Player player : makePlayerList()) {
             for (int i = 0; i < NUMBER_OF_INITIAL_CARDS; i++) {
                 player.getHand().add(deck.getCard());
@@ -90,13 +86,13 @@ public class Game {
         }
     }
 
-    private PlayersDecision getPlayersDecision() {
-        String userInput = UserInputProvider.getPlayersDecision(player.getName());
+    public PlayersDecision getPlayersDecision() {
+        String userInput = userInputProvider.getPlayersDecision(player.getName());
         try {
             return PlayersDecision.matchUserInput(userInput.toUpperCase());
         }
         catch (IllegalArgumentException exception) {
-            MessagePrinter.printError(exception.getMessage());
+            messagePrinter.printError(exception.getMessage());
             return getPlayersDecision();
         }
     }
@@ -106,7 +102,7 @@ public class Game {
             PlayersDecision playersDecision = getPlayersDecision();
             if (playersDecision == PlayersDecision.HIT) {
                 player.getHand().add(deck.getCard());
-                MessagePrinter.printPlayer(player);
+                messagePrinter.printPlayer(player);
             }
             else {
                 this.playerIsPlaying = false;
@@ -119,35 +115,35 @@ public class Game {
 
     public void gameFinishing() {
         if (player.getPoints() == 21) {
-            MessagePrinter.printMessage(playerWonMessage(player));
-            MessagePrinter.printPlayer(player);
+            messagePrinter.printMessage(playerWonMessage(player));
+            messagePrinter.printPlayer(player);
         } else if (player.getPoints() > 21) {
-            MessagePrinter.printMessage(playerWonMessage(croupier));
-            MessagePrinter.printPlayer(player);
+            messagePrinter.printMessage(playerWonMessage(croupier));
+            messagePrinter.printPlayer(player);
         } else {
             croupiersPlay();
             if (croupier.getPoints() > 21) {
-                MessagePrinter.printMessage(playerWonMessage(player));
-                MessagePrinter.printPlayer(croupier);
+                messagePrinter.printMessage(playerWonMessage(player));
+                messagePrinter.printPlayer(croupier);
             }
             else if (croupier.getPoints() > player.getPoints()) {
-                MessagePrinter.printPlayerAndCroupier(player, croupier);
-                MessagePrinter.printMessage(playerWonMessage(croupier));
+                messagePrinter.printPlayerAndCroupier(player, croupier);
+                messagePrinter.printMessage(playerWonMessage(croupier));
             }
             else if (croupier.getPoints() < player.getPoints()) {
-                MessagePrinter.printPlayerAndCroupier(player, croupier);
-                MessagePrinter.printMessage(playerWonMessage(player));
+                messagePrinter.printPlayerAndCroupier(player, croupier);
+                messagePrinter.printMessage(playerWonMessage(player));
             }
             else {
-                MessagePrinter.printPlayerAndCroupier(player, croupier);
-                MessagePrinter.printMessage(TIE);
+                messagePrinter.printPlayerAndCroupier(player, croupier);
+                messagePrinter.printMessage(TIE);
             }
         }
     }
 
 
     public void croupiersPlay() {
-        MessagePrinter.printMessage(CROUPIER_TURN);
+        messagePrinter.printMessage(CROUPIER_TURN);
         while (croupier.getPoints() < 17) {
             croupier.getHand().add(deck.getCard());
         }
