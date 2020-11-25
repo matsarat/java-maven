@@ -1,6 +1,7 @@
 package com.example.java.maven.gameBlackJack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     private final String name;
@@ -15,7 +16,7 @@ public class Player {
         return name;
     }
 
-    public ArrayList<Card> getHand() {
+    public List<Card> getHand() {
         return hand;
     }
 
