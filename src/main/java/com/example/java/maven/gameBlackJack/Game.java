@@ -119,7 +119,6 @@ public class Game {
             messagePrinter.printPlayer(player);
         } else if (player.getPoints() > 21) {
             messagePrinter.printMessage(playerWonMessage(croupier));
-            messagePrinter.printPlayer(player);
         } else {
             croupiersPlay();
             if (croupier.getPoints() > 21) {
