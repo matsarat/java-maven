@@ -9,8 +9,7 @@ public class gameBlackJack {
         Deck deck = new Deck();
 
         Game game = new Game(player, croupier, deck, userInputProvider, messagePrinter);
-
-
-
+        GameService gameService = new GameService(game);
+        gameService.playGame();
     }
 }
