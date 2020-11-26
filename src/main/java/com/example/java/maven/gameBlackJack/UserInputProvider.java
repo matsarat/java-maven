@@ -3,7 +3,7 @@ package com.example.java.maven.gameBlackJack;
 import java.util.Scanner;
 
 public class UserInputProvider {
-    MessagePrinter messagePrinter;
+    MessagePrinter messagePrinter = new MessagePrinter();
 
     public String getPlayersName() {
         messagePrinter.printMessage("" + '\n' +
@@ -21,6 +21,4 @@ public class UserInputProvider {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
-
-
 }
