@@ -23,7 +23,7 @@ class GameTest {
     UserInputProvider userInputProvider = Mockito.mock(UserInputProvider.class);
     MessagePrinter messagePrinter = Mockito.mock(MessagePrinter.class);
     Player player = Mockito.mock(Player.class);
-    Player croupier = new Player("Croupier");
+    Player croupier = Mockito.mock(Player.class);
     Deck deck = new Deck();
 
     @BeforeEach
@@ -133,18 +133,17 @@ class GameTest {
 
     @Test
     void shouldAddCardToCroupiersHand() {
-        Card card1 = new Card(Card.Suit.SPADE, Card.Rank.KING);
-        Card card2 = new Card(Card.Suit.SPADE, Card.Rank.SIX);
-        croupier.getHand().add(card1);
-        croupier.getHand().add(card2);
+        List<Card> croupierHand = new ArrayList<>();
 
 //        given
+        given(croupier.getPoints()).willReturn(16).willReturn(17);
+        given(croupier.getHand()).willReturn(croupierHand);
 
 //        when
         game.croupiersPlay();
 
 //        then
-        assertThat(croupier.getHand()).hasSize(3);
+        assertThat(croupier.getHand()).hasSize(1);
         verify(messagePrinter, times(1))
                 .printMessage(CROUPIER_TURN);
     }
