@@ -245,4 +245,17 @@ class GameTest {
         verify(messagePrinter, times(1))
                 .printMessage(TIE);
     }
+
+    @Test
+    void shouldInvokePrintingPlayerAndCroupiersInitialHand() {
+
+//        when
+        game.printPlayers();
+
+//        then
+        verify(messagePrinter, times(1))
+                .printPlayer(player);
+        verify(messagePrinter, times(1))
+                .printCroupiersInitialHand(croupier);
+    }
 }
