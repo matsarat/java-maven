@@ -1,5 +1,7 @@
 package com.example.java.maven.gameBlackJack;
 
+import java.util.List;
+
 public class GameService {
     private final Game game;
 
@@ -7,15 +9,13 @@ public class GameService {
         this.game = game;
     }
 
-    public void playGame(){
+    public void playGame(List<Player> humanPlayers){
         game.dealCards();
         game.printPlayers();
         game.printInstructions();
-        while (this.game.playerIsPlaying) {
-            game.playersDecision();
+        for (Player player : humanPlayers) {
+            game.playersDecision(player);
         }
         game.gameFinishing();
-
-
     }
 }
