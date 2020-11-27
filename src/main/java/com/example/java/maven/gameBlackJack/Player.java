@@ -6,10 +6,12 @@ import java.util.List;
 public class Player {
     private final String name;
     private final ArrayList<Card> hand;
+    public boolean isPlaying;
 
     public Player(String name) {
         this.name = name;
         this.hand = new ArrayList<>();
+        this.isPlaying = true;
     }
 
     public String getName() {
@@ -26,7 +28,6 @@ public class Player {
             points += card.getRank().getValue();
         }
         return points;
-
     }
 
     @Override
