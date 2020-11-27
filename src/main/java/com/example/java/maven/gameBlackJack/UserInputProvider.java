@@ -21,4 +21,13 @@ public class UserInputProvider {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
+
+    public int getNumberOfPlayers() {
+        messagePrinter.printMessage(
+                "" + '\n' +
+                        "How many players will be playing?" + '\n'
+        );
+        Scanner scanner = new Scanner(System.in);
+        return Integer.parseInt(scanner.nextLine());
+    }
 }
