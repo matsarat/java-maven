@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    private final List<Player> playersStillInGame;
     private final UserInputProvider userInputProvider;
     private final MessagePrinter messagePrinter;
     private final List<Player> humanPlayers;
@@ -20,12 +21,22 @@ public class Game {
 
 
 
-    public Game(List<Player> humanPlayers, Player croupier, Deck deck, UserInputProvider userInputProvider, MessagePrinter messagePrinter) {
+    public Game(List<Player> humanPlayers,
+                List<Player> playersStillInGame,
+                Player croupier,
+                Deck deck,
+                UserInputProvider userInputProvider,
+                MessagePrinter messagePrinter) {
+        this.playersStillInGame = playersStillInGame;
         this.humanPlayers = humanPlayers;
         this.croupier = croupier;
         this.deck = deck;
         this.userInputProvider = userInputProvider;
         this.messagePrinter = messagePrinter;
+    }
+
+    public List<Player> getPlayersStillInGame() {
+        return playersStillInGame;
     }
 
     public void printInstructions() {
@@ -122,14 +133,8 @@ public class Game {
             messagePrinter.printMessage(playerWonMessage(croupier));
         }
         else {
-            makeListOfPlayersWhichDidNotInstantlyWonOrLost().add(player);
+            this.playersStillInGame.add(player);
         }
-    }
-
-    public List<Player> makeListOfPlayersWhichDidNotInstantlyWonOrLost() {
-        List<Player> playersStillInGame = new ArrayList<>();
-        return playersStillInGame;
-
     }
 
     public void determineWinnersAndLosersAfterCroupiersPlay(Player player) {
@@ -147,7 +152,6 @@ public class Game {
             messagePrinter.printMessage(TIE);
         }
     }
-
 
     public void croupiersPlay() {
         messagePrinter.printMessage(CROUPIER_TURN);
