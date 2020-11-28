@@ -8,6 +8,7 @@ public class gameBlackJack {
         UserInputProvider userInputProvider = new UserInputProvider();
         MessagePrinter messagePrinter = new MessagePrinter();
         int numberOfPlayers = userInputProvider.getNumberOfPlayers();
+        List<Player> playersStillInGame = new ArrayList<>();
         List<Player> humanPlayers = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
             Player player = new Player(userInputProvider.getPlayersName());
@@ -16,7 +17,7 @@ public class gameBlackJack {
         Player croupier = new Player("Croupier");
         Deck deck = new Deck();
 
-        Game game = new Game(humanPlayers, croupier, deck, userInputProvider, messagePrinter);
+        Game game = new Game(humanPlayers, playersStillInGame, croupier, deck, userInputProvider, messagePrinter);
         GameService gameService = new GameService(game);
         gameService.playGame(humanPlayers);
     }
