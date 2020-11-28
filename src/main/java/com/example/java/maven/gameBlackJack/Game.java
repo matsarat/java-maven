@@ -98,41 +98,53 @@ public class Game {
     }
 
     public void playersDecision(Player player) {
-        if (player.getPoints() < 21) {
             while (player.isPlaying) {
-                PlayersDecision playersDecision = getPlayersDecision(player);
-                if (playersDecision == PlayersDecision.HIT) {
-                    player.getHand().add(deck.getCard());
-                    messagePrinter.printPlayer(player);
-                } else {
+                if (player.getPoints() < 21) {
+                    PlayersDecision playersDecision = getPlayersDecision(player);
+                    if (playersDecision == PlayersDecision.HIT) {
+                        player.getHand().add(deck.getCard());
+                        messagePrinter.printPlayer(player);
+                    } else {
+                        player.isPlaying = false;
+                    }
+                }
+                else {
                     player.isPlaying = false;
                 }
             }
-        }
-        player.isPlaying = false;
     }
 
-    public void gameFinishing() {
+    public void checkIfPlayerInstantlyLostOrWon(Player player) {
         if (player.getPoints() == 21) {
             messagePrinter.printMessage(playerWonMessage(player));
             messagePrinter.printPlayer(player);
         } else if (player.getPoints() > 21) {
             messagePrinter.printMessage(playerWonMessage(croupier));
+        }
+        else {
+            makeListOfPlayersWhichDidNotInstantlyWonOrLost().add(player);
+        }
+    }
+
+    public List<Player> makeListOfPlayersWhichDidNotInstantlyWonOrLost() {
+        List<Player> playersStillInGame = new ArrayList<>();
+        return playersStillInGame;
+
+    }
+
+    public void determineWinnersAndLosersAfterCroupiersPlay(Player player) {
+        if (croupier.getPoints() > 21) {
+            messagePrinter.printMessage(playerWonMessage(player));
+            messagePrinter.printPlayer(croupier);
+        } else if (croupier.getPoints() > player.getPoints()) {
+            messagePrinter.printPlayerAndCroupier(player, croupier);
+            messagePrinter.printMessage(playerWonMessage(croupier));
+        } else if (croupier.getPoints() < player.getPoints()) {
+            messagePrinter.printPlayerAndCroupier(player, croupier);
+            messagePrinter.printMessage(playerWonMessage(player));
         } else {
-            croupiersPlay();
-            if (croupier.getPoints() > 21) {
-                messagePrinter.printMessage(playerWonMessage(player));
-                messagePrinter.printPlayer(croupier);
-            } else if (croupier.getPoints() > player.getPoints()) {
-                messagePrinter.printPlayerAndCroupier(player, croupier);
-                messagePrinter.printMessage(playerWonMessage(croupier));
-            } else if (croupier.getPoints() < player.getPoints()) {
-                messagePrinter.printPlayerAndCroupier(player, croupier);
-                messagePrinter.printMessage(playerWonMessage(player));
-            } else {
-                messagePrinter.printPlayerAndCroupier(player, croupier);
-                messagePrinter.printMessage(TIE);
-            }
+            messagePrinter.printPlayerAndCroupier(player, croupier);
+            messagePrinter.printMessage(TIE);
         }
     }
 
