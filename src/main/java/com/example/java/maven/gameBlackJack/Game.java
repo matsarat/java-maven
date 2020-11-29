@@ -130,7 +130,7 @@ public class Game {
             messagePrinter.printMessage(playerWonMessage(player));
             messagePrinter.printPlayer(player);
         } else if (player.getPoints() > 21) {
-            messagePrinter.printMessage(playerWonMessage(croupier));
+            messagePrinter.printMessage(playerInstantlyLostMessage(player));
         }
         else {
             this.playersStillInGame.add(player);
@@ -140,7 +140,7 @@ public class Game {
     public boolean didCroupierInstantlyLost() {
         if (croupier.getPoints() > 21) {
             messagePrinter.printPlayer(croupier);
-            messagePrinter.printMessage(croupierLostMessage());
+            messagePrinter.printMessage(croupierInstantlyLostMessage());
             return true;
         }
         else {
@@ -172,7 +172,12 @@ public class Game {
         return String.format("You won, %s, you lucky guy!", player.getName());
     }
 
-    public String croupierLostMessage() {
+    public String croupierInstantlyLostMessage() {
         return ("Remaining players won, this time croupier had no luck!");
+    }
+
+    public String playerInstantlyLostMessage(Player player) {
+        return String.format("You lost, %s, maybe next time!", player.getName());
+
     }
 }
