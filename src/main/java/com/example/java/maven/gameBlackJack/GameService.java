@@ -19,8 +19,10 @@ public class GameService {
         }
         if (game.getPlayersStillInGame().size() != 0) {
             game.croupiersPlay();
-            for (Player player : game.getPlayersStillInGame()) {
-                game.determineWinnersAndLosersAfterCroupiersPlay(player);
+            if (!game.didCroupierInstantlyLost()) {
+                for (Player player : game.getPlayersStillInGame()) {
+                    game.determineWinnersAndLosersAfterCroupiersPlay(player);
+                }
             }
         }
     }
