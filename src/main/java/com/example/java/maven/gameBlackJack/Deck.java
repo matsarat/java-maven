@@ -17,12 +17,6 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
-    public Stack<Card> getCards() {
-        Stack<Card> cardsCopy = new Stack<>();
-        cardsCopy.addAll(this.cards);
-        return cardsCopy;
-    }
-
     public Card getCard() {
         return cards.pop();
 
