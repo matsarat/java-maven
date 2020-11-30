@@ -3,8 +3,13 @@ package com.example.java.maven.gameBlackJack;
 import java.util.Scanner;
 
 public class UserInputProvider {
-    MessagePrinter messagePrinter = new MessagePrinter();
+    MessagePrinter messagePrinter;
 
+
+    public UserInputProvider(MessagePrinter messagePrinter) {
+        this.messagePrinter = messagePrinter;
+    }
+    
     public String getPlayersName() {
         messagePrinter.printMessage("" + '\n' +
                 "What is your name? ");
@@ -23,11 +28,29 @@ public class UserInputProvider {
     }
 
     public int getNumberOfPlayers() {
+        int numberOfPlayers;
         messagePrinter.printMessage(
-                "" + '\n' +
-                        "How many players will be playing?" + '\n'
+                """
+
+                        How many players will be playing?
+                        Game is for maximum 6 players.
+                        """
         );
         Scanner scanner = new Scanner(System.in);
-        return Integer.parseInt(scanner.nextLine());
+        if (!scanner.hasNextInt()) {
+            messagePrinter.printError("Number of players must be an integer between 1 and 6!");
+            return getNumberOfPlayers();
+        }
+        else if (scanner.hasNextInt()) {
+            numberOfPlayers = scanner.nextInt();
+            if (numberOfPlayers > 0 && numberOfPlayers < 7) {
+                return numberOfPlayers;
+            }
+            else {
+                messagePrinter.printError("Number of players must be an integer between 1 and 6!");
+                return  getNumberOfPlayers();
+            }
+        }
+        return 0;
     }
 }
