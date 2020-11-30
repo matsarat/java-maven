@@ -5,8 +5,8 @@ import java.util.List;
 
 public class gameBlackJack {
     public static void main(String[] args) {
-        UserInputProvider userInputProvider = new UserInputProvider();
         MessagePrinter messagePrinter = new MessagePrinter();
+        UserInputProvider userInputProvider = new UserInputProvider(messagePrinter);
         int numberOfPlayers = userInputProvider.getNumberOfPlayers();
         List<Player> playersStillInGame = new ArrayList<>();
         List<Player> humanPlayers = new ArrayList<>();
