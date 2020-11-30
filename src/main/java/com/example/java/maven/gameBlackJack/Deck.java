@@ -18,7 +18,9 @@ public class Deck {
     }
 
     public Stack<Card> getCards() {
-        return cards;
+        Stack<Card> cardsCopy = new Stack<>();
+        cardsCopy.addAll(this.cards);
+        return cardsCopy;
     }
 
     public Card getCard() {
