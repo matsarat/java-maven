@@ -1,21 +1,24 @@
 package com.example.java.maven.gameBlackJack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     private final String name;
     private final ArrayList<Card> hand;
+    public boolean isPlaying;
 
     public Player(String name) {
         this.name = name;
         this.hand = new ArrayList<>();
+        this.isPlaying = true;
     }
 
     public String getName() {
         return name;
     }
 
-    public ArrayList<Card> getHand() {
+    public List<Card> getHand() {
         return hand;
     }
 
@@ -25,7 +28,6 @@ public class Player {
             points += card.getRank().getValue();
         }
         return points;
-
     }
 
     @Override
