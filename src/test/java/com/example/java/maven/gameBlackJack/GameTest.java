@@ -12,62 +12,113 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class GameTest {
     private final static String TIE = ('\n' + "It's a tie!");
     private final static String CROUPIER_TURN = ('\n' + "Croupier's turn now.");
     Game game;
+    List<Player> playersStillInGame = new ArrayList<>();
+    List<Player> humanPlayers = List.of(Mockito.mock(Player.class), Mockito.mock(Player.class));
     UserInputProvider userInputProvider = Mockito.mock(UserInputProvider.class);
     MessagePrinter messagePrinter = Mockito.mock(MessagePrinter.class);
-    Player player = Mockito.mock(Player.class);
     Player croupier = Mockito.mock(Player.class);
     Deck deck = new Deck();
 
     @BeforeEach
     void setUp() {
 
-        this.game = new Game(player, croupier, deck, userInputProvider, messagePrinter);
+        this.game = new Game(humanPlayers, playersStillInGame, croupier, deck, userInputProvider, messagePrinter);
+    }
+
+    @Test
+    void shouldReturnAllPlayersList() {
+
+//        when
+        game.makePlayerList();
+
+//        then
+        assertThat(game.makePlayerList().size()).isEqualTo(3);
     }
 
     @Test
     void shouldDealCards() {
+        List<Player> allPlayersList = game.makePlayerList();
+        List<Card> player1Hand = new ArrayList<>();
+        List<Card> player2Hand = new ArrayList<>();
+        List<Card> player3Hand = new ArrayList<>();
 
 //        given
-        List<Card> playerHand = new ArrayList<>();
-        List<Card> croupierHand = new ArrayList<>();
-        given(croupier.getHand())
-                .willReturn(croupierHand);
-        given(player.getHand())
-                .willReturn(playerHand);
+
+        given(allPlayersList.get(0).getHand()).willReturn(player1Hand);
+        given(allPlayersList.get(1).getHand()).willReturn(player2Hand);
+        given(allPlayersList.get(2).getHand()).willReturn(player3Hand);
 
 //        when
         game.dealCards();
 
 //        then
-        assertThat(playerHand).hasSize(2);
-        assertThat(croupierHand).hasSize(2);
+        assertThat(player1Hand.size()).isEqualTo(2);
+        assertThat(player2Hand.size()).isEqualTo(2);
+        assertThat(player3Hand.size()).isEqualTo(2);
 
     }
 
-    @Test
-    void shouldSetPlayerIsPlayingToFalseWhenPlayerHasOver20Points() {
-//        given
 
-        given(player.getPoints()).willReturn(21);
+    @Test
+    void shouldInvokePrintingPlayerAndCroupiersInitialHand() {
+        Player player = humanPlayers.get(0);
+        Player player2 = humanPlayers.get(1);
+
 //        when
-        game.playersDecision();
+        game.printPlayers();
 
 //        then
-        assertThat(game.playerIsPlaying).isFalse();
+
+        then(messagePrinter)
+                .should(times(1))
+                .printCroupiersInitialHand(croupier);
+        then(messagePrinter)
+                .should(times(1))
+                .printPlayer(player);
+        then(messagePrinter)
+                .should(times(1))
+                .printPlayer(player2);
     }
 
+
     @Test
-    void shouldSetPlayersPlayingToFalseWhenPlayerHasLessThan21PointsAndDecisionIsDifferentThanHit() {
-        String playerName = "Januż";
+    void shouldSetIsPlayingToFalseWhenPlayerHasOver20Points() {
+        Player player = humanPlayers.get(0);
+
 //        given
+        given(player.getPoints()).willReturn(21);
+        given(player.isPlaying()).willReturn(true).willReturn(false);
+//        when
+        game.playersDecision(player);
+
+//        then
+
+        then(player)
+                .should(times(1))
+                .getPoints();
+        then(player)
+                .should(times(1))
+                .setPlaying(false);
+    }
+
+
+    @Test
+    void shouldSetIsPlayingToFalseWhenPlayerHasLessThan21PointsAndDecisionIsDifferentThanHit() {
+        String playerName = "Januż";
+        Player player = humanPlayers.get(0);
+
+//        given
+        given(player.isPlaying())
+                .willReturn(true)
+                .willReturn(false);
         given(player.getName()).willReturn(playerName);
         given(player.getPoints()).willReturn(20);
         given(userInputProvider
@@ -75,22 +126,32 @@ class GameTest {
                 .willReturn("S");
 
 //        when
-        game.playersDecision();
+        game.playersDecision(player);
 
 //        then
-        assertThat(game.playerIsPlaying).isFalse();
-        verify(player, times(1)).getName();
-        verify(player, times(1)).getPoints();
-        verify(userInputProvider, times(1))
+
+        then(player)
+                .should(times(1))
+                .getPoints();
+        then(userInputProvider)
+                .should(times(1))
                 .getPlayersDecision(eq(playerName));
+        then(player)
+                .should(times(1))
+                .setPlaying(false);
     }
 
     @Test
     void shouldAddCardToPlayersHandAndPrintPlayerIfDecisionIsHit() {
         String playerName = "Januż";
         List<Card> playerHand = new ArrayList<>();
+        Player player = humanPlayers.get(0);
+
 
 //        given
+        given(player.isPlaying())
+                .willReturn(true)
+                .willReturn(false);
         given(player.getName()).willReturn(playerName);
         given(player.getPoints()).willReturn(10);
         given(userInputProvider
@@ -101,19 +162,25 @@ class GameTest {
 
 
 //        when
-        game.playersDecision();
+        game.playersDecision(player);
 
 //        then
-        verify(player, times(1)).getHand();
-        verify(player, times(1)).getPoints();
-        verify(userInputProvider, times(1))
+        then(player)
+                .should(times(1))
+                .getPoints();
+        then(player)
+                .should(times(1))
+                .getHand();
+        then(userInputProvider)
+                .should(times(1))
                 .getPlayersDecision(eq(playerName));
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printPlayer(player);
-        assertThat(player.getHand().size()).isEqualTo(1);
-        assertThat(game.playerIsPlaying).isTrue();
 
+        assertThat(playerHand.size()).isEqualTo(1);
     }
+
 
     @Test
     void shouldNotAddCardToCroupiersHand() {
@@ -128,8 +195,11 @@ class GameTest {
 
 //        then
         assertThat(croupierHand).hasSize(0);
-        verify(messagePrinter, times(1)).printMessage(CROUPIER_TURN);
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(CROUPIER_TURN);
     }
+
 
     @Test
     void shouldAddCardToCroupiersHand() {
@@ -144,118 +214,152 @@ class GameTest {
 
 //        then
         assertThat(croupier.getHand()).hasSize(1);
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printMessage(CROUPIER_TURN);
     }
 
     @Test
-    void shouldFinishGameAndPrintThatPlayerInstantlyWon() {
+    void printThatPlayerInstantlyWon() {
+        Player player = humanPlayers.get(0);
 
 //        given
         given(player.getPoints()).willReturn(21);
 
 //        when
-        game.gameFinishing();
+        game.checkIfPlayerInstantlyLostOrWon(player);
 
 //        then
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printMessage(game.playerWonMessage(player));
-        verify(messagePrinter, times(1))
-                .printPlayer(player);
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(game.playerWonMessage(player));
     }
 
     @Test
-    void shouldFinishGameAndPrintThatCroupierInstantlyWon() {
+    void printThatPlayerInstantlyLost() {
+        Player player = humanPlayers.get(0);
 
 //        given
         given(player.getPoints()).willReturn(22);
 
 //        when
-        game.gameFinishing();
+        game.checkIfPlayerInstantlyLostOrWon(player);
 
 //        then
-        verify(messagePrinter, times(1))
-                .printMessage(game.playerWonMessage(croupier));
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(game.playerInstantlyLostMessage(player));
     }
 
     @Test
-    void shouldFinishGameAndPrintThatPlayerWonAfterCroupiersTurn() {
+    void shouldAddPlayerToListOfPlayersStillInGame() {
+        Player player = humanPlayers.get(0);
 
 //        given
-        given(croupier.getPoints()).willReturn(15);
+        given(player.getPoints()).willReturn(20);
+
+//        when
+        game.checkIfPlayerInstantlyLostOrWon(player);
+
+//        then
+        assertThat(playersStillInGame.size()).isEqualTo(1);
+    }
+
+
+    @Test
+    void shouldPrintThatCroupierInstantlyLostAndReturnTrue() {
+
+//        given
         given(croupier.getPoints()).willReturn(22);
 
 //        when
-        game.gameFinishing();
+        game.didCroupierInstantlyLost();
 
 //        then
-        verify(messagePrinter, times(1))
-                .printMessage(game.playerWonMessage(player));
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printPlayer(croupier);
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(game.croupierInstantlyLostMessage());
+        assertThat(game.didCroupierInstantlyLost()).isTrue();
     }
 
     @Test
-    void shouldFinishGameAndPrintThatCroupierWonByPointsDifference() {
+    void shouldReturnFalseIfCroupierDidNotInstantlyLost() {
+
+//        given
+        given(croupier.getPoints()).willReturn(17);
+
+//        when
+        game.didCroupierInstantlyLost();
+
+//        then
+        assertThat(game.didCroupierInstantlyLost()).isFalse();
+    }
+
+
+
+    @Test
+    void shouldPrintThatCroupierWonByPointsDifference() {
+        Player player = humanPlayers.get(0);
 
 //        given
         given(player.getPoints()).willReturn(15);
         given(croupier.getPoints()).willReturn(20);
 
 //        when
-        game.gameFinishing();
+        game.determineWinnersAndLosersAfterCroupiersPlay(player);
 
 //        then
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printPlayerAndCroupier(player, croupier);
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printMessage(game.playerWonMessage(croupier));
     }
 
     @Test
-    void shouldFinishGameAndPrintThatPlayerWonByPointsDifference() {
+    void shouldPrintThatPlayerWonByPointsDifference() {
+        Player player = humanPlayers.get(0);
 
 //        given
         given(player.getPoints()).willReturn(20);
         given(croupier.getPoints()).willReturn(17);
 
 //        when
-        game.gameFinishing();
+        game.determineWinnersAndLosersAfterCroupiersPlay(player);
 
 //        then
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printPlayerAndCroupier(player, croupier);
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printMessage(game.playerWonMessage(player));
     }
 
     @Test
     void shouldFinishGameAndPrintThatGameFinishedWithATie() {
+        Player player = humanPlayers.get(0);
 
 //        given
         given(player.getPoints()).willReturn(20);
         given(croupier.getPoints()).willReturn(20);
 
 //        when
-        game.gameFinishing();
+        game.determineWinnersAndLosersAfterCroupiersPlay(player);
 
 //        then
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printPlayerAndCroupier(player, croupier);
-        verify(messagePrinter, times(1))
+        then(messagePrinter)
+                .should(times(1))
                 .printMessage(TIE);
-    }
-
-    @Test
-    void shouldInvokePrintingPlayerAndCroupiersInitialHand() {
-
-//        when
-        game.printPlayers();
-
-//        then
-        verify(messagePrinter, times(1))
-                .printPlayer(player);
-        verify(messagePrinter, times(1))
-                .printCroupiersInitialHand(croupier);
     }
 }
