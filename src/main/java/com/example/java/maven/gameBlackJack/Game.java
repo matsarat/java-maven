@@ -50,7 +50,7 @@ public class Game {
         messagePrinter.printCroupiersInitialHand(croupier);
     }
 
-    private List<Player> makePlayerList() {
+    public List<Player> makePlayerList() {
         List<Player> allPlayersList = new ArrayList<>();
         allPlayersList.addAll(humanPlayers);
         allPlayersList.add(croupier);
@@ -109,18 +109,18 @@ public class Game {
     }
 
     public void playersDecision(Player player) {
-            while (player.isPlaying) {
+            while (player.isPlaying()) {
                 if (player.getPoints() < 21) {
                     PlayersDecision playersDecision = getPlayersDecision(player);
                     if (playersDecision == PlayersDecision.HIT) {
                         player.getHand().add(deck.getCard());
                         messagePrinter.printPlayer(player);
                     } else {
-                        player.isPlaying = false;
+                        player.setPlaying(false);
                     }
                 }
                 else {
-                    player.isPlaying = false;
+                    player.setPlaying(false);
                 }
             }
     }
